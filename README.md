@@ -1,63 +1,38 @@
-## What is jumpcutter?
+## Jumpcutter란?
 
-Jumpcutter is a program that is written in Python to automatically jump-cut silent parts of your videos.
-The purpose here is to ease your post recording work.
+Jumpcutter는 Python으로 작성된 프로그램으로 영상에서 무음 구간을 자동으로 잘라내어 편집 부담을 줄여 줍니다.
+자세한 내용은 [Medium 글](https://medium.com/@emkademy/how-to-jump-cut-silent-parts-of-your-videos-automatically-with-python-2e4b96320dc1)을 참고하세요.
 
-Check out [the medium post](https://medium.com/@emkademy/how-to-jump-cut-silent-parts-of-your-videos-automatically-with-python-2e4b96320dc1)
-for more information.
-
-## Installation
-You can install jumpcutter by simply:
+## 설치
 
 ```bash
-pip install jumpcutter 
+pip install jumpcutter
 ```
 
-## Demo
+## 데모
 
 [![Watch the video](https://img.youtube.com/vi/UDjzm_lzWOA/hqdefault.jpg)](https://youtu.be/UDjzm_lzWOA)
 
-## How to run it?
-There are 11 command line arguments you can run the program with. 
-Before explaining them, I would like to say that most of these parameters 
-have a default value that “just works”. So, if you don’t want you don’t need to specify 
-(or know) almost any of these parameters. You will be just fine with the default values.
+## 사용 방법
+프로그램은 11개의 명령행 인자를 받을 수 있습니다. 이들 대부분은 '그냥 동작하는' 기본값을 갖고 있으므로 모든 값을 일일이 알거나 지정하지 않아도 됩니다. 기본값만으로도 충분합니다.
 
-1. `-i`, `--input`: Path to the video that you want to jump-cut.
-2. `-o`, `--output`: Path to where you want to save the output video.
-3. `-m`, `--magnitude-threshold-ratio`: The percentage of the maximum value of your audio signal that you would like to 
-     consider as silent a signal (default: 0.02).
-4. `-d`, `--duration-threshold`: Minimum number of required seconds in silence to cut it out. For example if this parameter 
-     is 0.5, it means that the silence parts have to last minimum 0.5 seconds, otherwise they won't be jump-cut (default: 0.5).
-5. `-f`, `--failure-tolerance-ratio`: Most of the times, there are 44100 audio signal values in 1 second of a video. 
-     Let's say the "--duration-threshold" was set to 0.5. This means that, we need to check minimum 22050 signal 
-     values to see if there is a silent part of not. What happens if we found 22049 values that we consider as silent, 
-     but there is 1 value that is above our threshold. Should we just throw this part of the video and consider it as a 
-     loud signal? I think we shouldn't. This parameter leaves some room for failure, it tolerates high signal values until 
-     some point. Let's say it is set to 0.1, it means that 10% of the signal that is currently being investigated can 
-     have values that are higher than our threshold, but they are still going to be considered as a silent part (default: 0.1).
-6. `-s`, `--space-on-edges`: Leaves some space on the edges of silence cut. E.g. if it is found that there is 
-     silence between 10th and 20th second of the video, then instead of cutting it out directly, we cut out 
-     (10+space_on_edges)th and (20-space_on_edges)th seconds of the clip (default: 0.1).
-7. `-x`, `--silence-part-speed` : If this parameter is given, instead of cutting the silent parts out, the script will 
-     speed them up "x" times.
-8. `-l`, `--min-loud-part-duration`: If this parameter is given, loud parts of the video that are shorter then this 
-     parameter will also be cut.
-9. `-c`, `--cut`: If you want, you can also cut voiced parts of the video (to have some fun :)). There are 3 choices 
-     you can make for this parameter: `silent`, `voiced`, `both`. If you choose `silent`, silent parts of the video will
-     be cutted; if you choose `voiced`, voiced parts of the video will be cutted; if you choose `both` 2 videos will be
-     saved: 1 for the silent parts, 1 for the voiced parts (default: silent).
-10. `--codec`: Codec to use for image encoding. Can be any codec supported by ffmpeg. If the filename 
-     has extension ‘.mp4’, ‘.ogv’, ‘.webm’, the codec will be set accordingly, but you can still set
-     it if you don’t like the default. For other extensions, the output filename must be set accordingly. 
-     Check [here](https://zulko.github.io/moviepy/ref/VideoClip/VideoClip.html#moviepy.video.compositing.CompositeVideoClip.CompositeVideoClip.write_videofile)
-11. `bitrate`: Desired bitrate of the output video. Leave blank if you don't know what this is.
-     
-## Examples of running the program
+1. `-i`, `--input`: jump-cut할 영상 경로
+2. `-o`, `--output`: 결과 영상을 저장할 경로
+3. `-m`, `--magnitude-threshold-ratio`: 오디오 신호의 최대값에 대한 무음 판단 비율 (기본값: 0.02)
+4. `-d`, `--duration-threshold`: 잘라낼 무음 구간의 최소 길이(초). 예를 들어 0.5이면 0.5초 이상 지속된 무음만 제거합니다 (기본값: 0.5)
+5. `-f`, `--failure-tolerance-ratio`: 분석 중 임계치를 넘는 값이 허용되는 비율 (기본값: 0.1)
+6. `-s`, `--space-on-edges`: 컷팅 전후로 남길 여유 시간(초) (기본값: 0.1)
+7. `-x`, `--silence-part-speed`: 무음 구간을 잘라내는 대신 x배속으로 빠르게 재생합니다
+8. `-l`, `--min-loud-part-duration`: 이 값보다 짧은 음성 구간도 잘라냅니다
+9. `-c`, `--cut`: `silent`, `voiced`, `both` 중 선택해 무음/음성 파트를 각각 자르거나 둘 다 저장할 수 있습니다 (기본값: silent)
+10. `--codec`: ffmpeg에서 지원하는 코덱 이름. 파일 확장자로 기본값이 결정되지만 변경할 수 있습니다
+11. `bitrate`: 결과 영상의 비트레이트. 잘 모르면 비워 두세요
+
+## 실행 예시
 
 ```bash
-# The simplest way you can run the program
+# 가장 간단한 실행
 jumpcutter -i input_video.mp4 -o output_video.mp4
-# If you want, you can also set the other parameters that was mentioned
+# 모든 옵션을 지정한 예
 jumpcutter -i input_video.mp4 -o output_video.mp4 -m 0.05 -d 1.0 -f 0.2 -s 0.2 -x 2000 -l 1.0 -c both
 ```
