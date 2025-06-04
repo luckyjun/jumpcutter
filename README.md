@@ -14,7 +14,7 @@ pip install jumpcutter
 [![Watch the video](https://img.youtube.com/vi/UDjzm_lzWOA/hqdefault.jpg)](https://youtu.be/UDjzm_lzWOA)
 
 ## 사용 방법
-프로그램은 11개의 명령행 인자를 받을 수 있으며 대부분 기본값이 정해져 있어 별다른 설정 없이도 사용할 수 있습니다.
+프로그램은 11개의 명령행 인자를 받을 수 있습니다. 이들 대부분은 '그냥 동작하는' 기본값을 갖고 있으므로 모든 값을 일일이 알거나 지정하지 않아도 됩니다. 기본값만으로도 충분합니다.
 
 1. `-i`, `--input`: jump-cut할 영상 경로
 2. `-o`, `--output`: 결과 영상을 저장할 경로
